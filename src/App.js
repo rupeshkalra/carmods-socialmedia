@@ -21,7 +21,7 @@ import {requestPermission} from './utils/AskPermission'
 
 const Stack =createStackNavigator();
 
-const App =({authstate})=>{
+const App =({authState})=>{
 
     const dispatch=useDispatch();
 
@@ -60,11 +60,38 @@ const App =({authstate})=>{
       return subscriber();
     },[])
 
+    if(authState.loading){
+      return <EmptyContainer/>
+    }
+
+
     return(
       <>
-      <Text>App</Text>
+      <NavigationContainer>
+        <Stack.Navigator
+        screenOptions={{
+          header:(props)=> <CustomHeader {...props}/>
+        }}
+        >
+          {authState.isAuthenticated ? (
+            <>
+              <Stack.Screen name="Home" component={Home}/>
+              <Stack.Screen name="AddPost" component={AddPost}/>
+            </>
+          ):(
+            <>
+              <Stack.Screen name="SignUp" component={SignUp}/>
+              <Stack.Screen name="SignIn" component={SignIn}/>
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
       </>
     )
 }
 
-export default App;
+const mapStateToProps=(state)=>{
+  authState:state.auth
+}
+
+export default connect(mapStateToProps)(App);
