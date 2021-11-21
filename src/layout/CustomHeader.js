@@ -10,7 +10,7 @@ import {
     Text
 } from 'native-base'
 import {connect} from 'react-redux'
-import {propTypes} from 'prop-types';
+import propTypes from 'prop-types';
 import {signOut } from '../action/auth'
 
 const CustomHeader=({authState,SignOut,navigation})=>{
@@ -54,7 +54,7 @@ const mapDispatchToProps={
     signOut
 }
 
-CustomHeader.propTypes={
+CustomHeader.prototypes ={
     signOut:propTypes.func.isRequired,
     authState:propTypes.object.isRequired
 }
