@@ -57,7 +57,7 @@ const App =({authState})=>{
     useEffect(()=>{
       requestPermission()
       const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-      return subscriber();
+      return subscriber;
     },[])
 
     if(authState.loading){

@@ -1,4 +1,3 @@
-import { series } from 'async'
 import {ToastAndroid,PermissionsAndroid} from 'react-native'
 
 export const requestPermission = async ()=>{

@@ -13,7 +13,7 @@ import {connect} from 'react-redux'
 import propTypes from 'prop-types';
 import {signOut } from '../action/auth'
 
-const CustomHeader=({authState,SignOut,navigation})=>{
+const CustomHeader=({authState,signOut,navigation})=>{
     return (
       <Header
       androidStatusBarColor="#0f4c75"
@@ -46,9 +46,9 @@ const CustomHeader=({authState,SignOut,navigation})=>{
     )
 }
 
-const mapStateToProps =(state)=>{
-    authState:auth.state
-}
+const mapStateToProps =(state)=>({
+    authState:state.auth
+})
 
 const mapDispatchToProps={
     signOut
