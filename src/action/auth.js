@@ -8,10 +8,10 @@ export const signUp =(data)=> async(dispatch)=>{
 
     auth().createUserWithEmailAndPassword(email,password)
     .then((data)=>{
-        console.log(data)
+        console.log("Data --"+data.user)
         console.log("User Created.")
 
-        database().ref('users/'+data.user.uid)
+        database().ref('/users/'+data.user.uid)
         .set({
             name,
             username,

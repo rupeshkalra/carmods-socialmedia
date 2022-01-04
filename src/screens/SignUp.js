@@ -37,11 +37,117 @@ const SignUp=({signUp})=>{
     const [imageUploading, setImageUploading] = useState(false)
     const [uploadStatus, setUploadStatus] = useState(null)
 
+    
+    const chooseImage = async () => {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response)
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+              } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+              } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+              } else {
+                console.log(response)
+                uploadImage(response)
+              }
+             
+               
+        })
+    }
+
+
+    const uploadImage = async (response) => {
+        setImageUploading(true)
+        const reference = storage().ref(response.fileName)
+
+        const task = reference.putFile(response.path)
+        task.on('state_changed', (taskSnapshot) => {
+            const percentage = (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 1000
+
+            setUploadStatus(percentage)
+        })
+
+        task.then(async () => {
+            const url = await reference.getDownloadURL()
+
+            setImage(url)
+            setImageUploading(false)
+        })
+    }
+
+    
+    const doSignUp = async () => {
+        signUp({name, userName, country, email, password, image})
+    }
+
     return (
-        <>
-        <Text>Sign up</Text>
-        </>
-    )
+        <Container style={styles.container}>
+          <Content padder>
+            <ScrollView contentContainerStyle={{flexGrow: 1}}>
+              <View style={styles.imageContainer}>
+                <TouchableOpacity onPress={chooseImage}>
+                  <Thumbnail large source={{uri: image}} />
+                </TouchableOpacity>
+              </View>
+    
+              {imageUploading && (
+                <ProgressBar progress={uploadStatus} style={styles.progress} />
+              )}
+    
+              <Form>
+                <Item regular style={styles.formItem}>
+                  <Input
+                    placeholder="name"
+                    value={name}
+                    style={{color: '#eee'}}
+                    onChangeText={(text) => setName(text)}
+                  />
+                </Item>
+                <Item regular style={styles.formItem}>
+                  <Input
+                    placeholder="email"
+                    value={email}
+                    style={{color: '#eee'}}
+                    onChangeText={(text) => setEmail(text)}
+                  />
+                </Item>
+                <Item regular style={styles.formItem}>
+                  <Input
+                    placeholder="password"
+                    value={password}
+                    secureTextEntry={true}
+                    style={{color: '#eee'}}
+                    onChangeText={(text) => setPassword(text)}
+                  />
+                </Item>
+                <Item regular style={styles.formItem}>
+                  <Input
+                    placeholder="Instagram user name"
+                    value={userName}
+                    style={{color: '#eee'}}
+                    onChangeText={(text) => setUserName(text)}
+                  />
+                </Item>
+                <Item regular style={styles.formItem}>
+                  <Input
+                    placeholder="country"
+                    value={country}
+                    style={{color: '#eee'}}
+                    onChangeText={(text) => setCountry(text)}
+                  />
+                </Item>
+                <Button regular block onPress={doSignUp}>
+                  <Text>SignUp</Text>
+                </Button>
+              </Form>
+            </ScrollView>
+          </Content>
+        </Container>
+      );
+    
+    
 }
 
 const mapDispatchToProps = {
@@ -53,3 +159,20 @@ SignUp.propTypes = {
 }
 
 export default connect(null, mapDispatchToProps)(SignUp)
+const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#1b262c',
+      flex: 1,
+      justifyContent: 'flex-start',
+    },
+    imageContainer: {
+      alignItems: 'center',
+      marginVertical: 5,
+    },
+    progress: {width: null, marginBottom: 20},
+    formItem: {
+      marginBottom: 20,
+    },
+  });
+  
+  

@@ -26,7 +26,8 @@ const App =({authState})=>{
     const dispatch=useDispatch();
 
     const onAuthStateChanged=(user)=>{
-      
+      console.log("user log ---"+user);
+
       if(user){
         
           dispatch({
@@ -38,7 +39,7 @@ const App =({authState})=>{
 
           database().ref(`/users/${user._user.uid}`)
           .on('value',(snapshot)=>{
-            console.log('USER DETAILS',snapshot.val());
+            console.log('USER DETAILS----',snapshot.val());
             dispatch({
               type:SET_POST,
               payload:snapshot.val(),
