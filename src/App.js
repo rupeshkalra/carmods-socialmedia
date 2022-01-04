@@ -26,7 +26,6 @@ const App =({authState})=>{
     const dispatch=useDispatch();
 
     const onAuthStateChanged=(user)=>{
-      console.log("user log ---"+user);
 
       if(user){
         
@@ -81,8 +80,8 @@ const App =({authState})=>{
             </>
           ):(
             <>
-              <Stack.Screen name="SignUp" component={SignUp}/>
               <Stack.Screen name="SignIn" component={SignIn}/>
+              <Stack.Screen name="SignUp" component={SignUp}/>
             </>
           )}
         </Stack.Navigator>

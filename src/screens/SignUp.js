@@ -124,7 +124,7 @@ const SignUp=({signUp})=>{
                 </Item>
                 <Item regular style={styles.formItem}>
                   <Input
-                    placeholder="Instagram user name"
+                    placeholder="User name"
                     value={userName}
                     style={{color: '#eee'}}
                     onChangeText={(text) => setUserName(text)}
