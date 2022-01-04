@@ -4,7 +4,7 @@ import Snackbar from 'react-native-snackbar'
 
 export const signUp =(data)=> async(dispatch)=>{
     console.log(data);
-    const {name,username,email,password,country,image}=data;
+    const {name,userName,email,password,country,image}=data;
 
     auth().createUserWithEmailAndPassword(email,password)
     .then((data)=>{
@@ -14,7 +14,7 @@ export const signUp =(data)=> async(dispatch)=>{
         database().ref('/users/'+data.user.uid)
         .set({
             name,
-            username,
+            userName,
             country,
             image,
             uid:data.user.uid
